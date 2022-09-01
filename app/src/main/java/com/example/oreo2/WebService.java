@@ -40,15 +40,15 @@ public class WebService {
     static StringBuilder output_cookie = new StringBuilder();
     static CookieManager msCookieManager = new CookieManager();
     private static int responseCode;
-    private List<String> urls = new ArrayList<String>();
+//    private List<String> urls = new ArrayList<String>();
 
     WebService()
     {
-        urls.add("http://www.google.com");
-        urls.add("http://www.tistory.com");
-        urls.add("http://www.google.com");
-        urls.add("http://www.google.com");
-        urls.add("http://www.google.com");
+//        urls.add("http://www.google.com");
+//        urls.add("http://www.tistory.com");
+//        urls.add("http://www.google.com");
+//        urls.add("http://www.google.com");
+//        urls.add("http://www.google.com");
     }
 
     public static String sendPost(String requestURL, String urlParameters) {
