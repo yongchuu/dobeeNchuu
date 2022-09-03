@@ -122,6 +122,7 @@ public class WebService {
         // optional default is GET
         con.setRequestMethod("GET");
         con.setDoInput(true);
+        con.setInstanceFollowRedirects(false);
 
         //add request header
 //        con.setRequestProperty("User-Agent", "Mozilla");
@@ -140,6 +141,7 @@ public class WebService {
          * /programming/16150089/how-to-handle-cookies-in-httpurlconnection-using-cookiemanager
          * Get Cookies form response header and load them to cookieManager:
          */
+
         Map<String, List<String>> headerFields = con.getHeaderFields();
         List<String> cookiesHeader = headerFields.get(COOKIES_HEADER);
         if (cookiesHeader != null) {
