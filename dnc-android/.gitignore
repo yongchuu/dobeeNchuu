@@ -14,7 +14,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-dnc-server/.idea
+dnc-android/.idea
 *.iws
 *.iml
 *.ipr
