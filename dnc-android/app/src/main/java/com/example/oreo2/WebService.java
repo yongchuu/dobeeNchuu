@@ -114,7 +114,7 @@ public class WebService {
 
 
     // HTTP GET request
-    public static String sendGet(String url) throws Exception {
+    public static String sendGet(String url, Map<String, String> reqProp) throws Exception {
         output.setLength(0);
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -125,7 +125,10 @@ public class WebService {
         con.setInstanceFollowRedirects(false);
 
         //add request header
-//        con.setRequestProperty("User-Agent", "Mozilla");
+        reqProp.forEach((k,v)->{
+            con.addRequestProperty(k,v);
+        });
+
         /*
          * /programming/16150089/how-to-handle-cookies-in-httpurlconnection-using-cookiemanager
          * Get Cookies form cookieManager and load them to connection:
