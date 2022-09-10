@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     TextView textView_cookie;
     WebService webService;
     Handler handler = new Handler();
-    StringBuilder javascriptCode = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,33 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.http_bttn);
         Button button2 = findViewById(R.id.http_bttn2);
-
-//        ContextFactory factory = ContextFactory.getGlobal();
-//        Context cx = factory.enterContext();
-//        cx.setOptimizationLevel(-1);// without 64kb limit
-//        Scriptable shared = cx.initStandardObjects();
-//        Scriptable scope = cx.newObject(shared);
-////        cx.evaluateReader(scope, new java.io.FileReader("env.rhino.js"), "", 1, null);
-//        String source = "";
-//        source += "var div = document.createElement(\"div\");";
-//        source += "div.innerHTML = \"korea\";";
-//        source += "document.body.appendChild(div);";
-//        source += "document.body.innerHTML;";
-//        source += "console.log(div);";
-//        Object result = cx.evaluateString(scope, source, "", 1, null);
-//        System.out.println(result);//"<div>korea</div>"
-
-//        ContextFactory f = new ContextFactory();
-//        Context c = f.enterContext();
-//        Scriptable s = c.initStandardObjects();
-//
-//        String js = "java.lang.System.out.println('Hello world!')";
-//        c.evaluateString(s, js, null, 1, null);
-
-
-//        JSContext context = new JSContext();
-//        context.evaluateScript(js);
-//        context.evaluateScript("question.vote(0);");
 
         button2.setOnClickListener(view -> {
             JsEngine je = new JsEngine();
@@ -122,11 +94,11 @@ public class MainActivity extends AppCompatActivity {
             Map<String, String> reqProp_1 = GetTestProp();
             Log.i("Tag", "!!!start!!!");
 
-            int nowHtmlDepth = 0; // zero is init request
-
             new Thread(new Runnable(){
                 @Override
                 public void run(){
+                    JsEngine je = new JsEngine();
+                    int nowHtmlDepth = 0; // zero is init request
                     Queue<RequestPacket> todoQ = new LinkedList<>(); //int형 queue 선언, linkedlist 이용
                     todoQ.add(new RequestPacket(url_1, true, nowHtmlDepth));
 
@@ -134,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
                     {
                         RequestPacket rp = todoQ.poll();
                         String _url = rp.url;
+//                        if(nowHtmlDepth < rp.depth){
+//                            nowHtmlDepth = rp.depth;
+//                            //execute js Code and reset jsEngine
+//
+//                        }
+
                         String resDoc = null;
 
                         try {
@@ -143,24 +121,26 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Log.d("reqException",e.toString());
                         }
-                        println("fst_res" + webService.getHTTP());
-                        //Log.d("resDoc", resDoc);
-
-                        Document doc =  Jsoup.parse(resDoc.toString());
+//                        println("fst_res" + webService.getHTTP());
 
                         //.js를 get한 return이면?
+                        // case 0
                         String ext = _url.substring(_url.lastIndexOf(".") + 1);
-                        if(ext == "js"){
-                            Log.d("Tag", "_url is .js");
-                            javascriptCode.append(doc.toString());
+
+                        if(ext.equals("js")){
+                            Log.d("Tag", "_url is ended with .js");
+//                            javascriptCode.append(doc.toString());
+                            je.addFunction(resDoc.toString());
                             continue;
                         }
 
+                        Document doc =  Jsoup.parse(resDoc.toString());
                         //case 1
                         // android에서 api에서 호출 시 return되는 js 파싱을 위한
                         Elements scrLanJs = doc.select("script[language=JavaScript]");
                         if(!scrLanJs.isEmpty()) { //null값이 아니면 크롤링 실행
                             Log.d("Tag", "lan=js is not Empty, size : " + scrLanJs.size());
+                            final int depth = nowHtmlDepth;
                             scrLanJs.forEach(el -> {
                                 String jsCode = el.data();
                                 Log.d("Tag jsCode", jsCode);
@@ -170,28 +150,58 @@ public class MainActivity extends AppCompatActivity {
                                 parsed_url = parsed_url.replace("\\", "");
                                 parsed_url = parsed_url.replace("'", "");
                                 Log.d("Tag parsed url", parsed_url);
-                                todoQ.add(new RequestPacket(parsed_url, false, nowHtmlDepth));
+                                todoQ.add(new RequestPacket(parsed_url, false, depth));
                             });
                         }
 
-                        //case 2
+                        //case 2-1
                         // 두 번째 return으로 오는 html문서를 파싱하기 위한 select
                         // ex) <script type="text/javascript" src="https://ssl.pstatic.net/t.static.blog/mylog/versioning/JindoComponent-190469086_https.js" charset="utf-8"></script>
                         Elements srcEles = doc.select("script[type=text/javascript]");
                         if(!srcEles.isEmpty()) {
                             Log.d("Tag", "type=text/javascript is not Empty, size : " + srcEles.size());
+                            final int depth = nowHtmlDepth;
+
+                            //attr src first
+                            srcEles.forEach(_el -> {
+                                String srcPath = null;
+                                srcPath = _el.attr("src");
+                                String _ext = srcPath.substring(srcPath.lastIndexOf(".") + 1);
+                                if(srcPath != "" && _ext.equals("js")) {
+//                                    Log.d("AddPath", srcPath);
+//                                    todoQ.add(new RequestPacket(srcPath, false, depth));
+                                    try {
+                                        Map<String, String> empty = new HashMap<>();
+                                        Log.d("reqGetUrl", srcPath);
+                                        String retJsCode = webService.sendGet(srcPath, empty);
+                                        je.addFunction(retJsCode);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Log.d("reqException",e.toString());
+                                    }
+                                }
+                            });
+                        }
+
+                        //case 2-2
+                        // 두 번째 return으로 오는 html문서를 파싱하기 위한 select
+                        // ex)   <script type="text/javascript" charset="UTF-8">
+                        //var photoContent="";
+                        //var postContent="";
+                        //...</script>
+                        Elements srcEles_2 = doc.select("script[type=text/javascript]");
+                        if(!srcEles_2.isEmpty()) {
+                            Log.d("Tag", "type=text/javascript is not Empty, size : " + srcEles.size());
+                            final int depth = nowHtmlDepth;
+
                             srcEles.forEach(_el -> {
                                 String srcPath = null;
                                 srcPath = _el.attr("src");
                                 //변수 = "" <- 이 패턴으로 이루어져있는 js파싱해서 하나하나 다 실행해줘야
-                                if(srcPath=="") {
+                                if(srcPath == "") {
                                     // javascript를 쌓아두기
                                     Log.d("AddPath", srcPath);
-                                    javascriptCode.append(_el.data());
-                                }
-                                else {
-                                    Log.d("AddPath", srcPath);
-                                    todoQ.add(new RequestPacket(srcPath, false, nowHtmlDepth));
+                                    je.addFunction(_el.data());
                                 }
                             });
                         }
@@ -207,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                         Elements iframeEles = doc.select("iframe[type=mainFrame]");
                         if(!iframeEles.isEmpty()) {
                             Log.d("Tag", "type=text/javascript is not Empty, size : " + srcEles.size());
+                            final int depth = nowHtmlDepth;
                             iframeEles.forEach(_el -> {
                                 String srcPath = null;
                                 srcPath = _el.attr("src");
@@ -214,11 +225,17 @@ public class MainActivity extends AppCompatActivity {
                                 if(srcPath=="") {
                                     // javascript를 쌓아두기
                                     Log.d("AddPath", srcPath);
-                                    javascriptCode.append(_el.data());
+                                    je.addFunction(_el.data());
                                 }
                                 else {
                                     Log.d("AddPath", srcPath);
-                                    todoQ.add(new RequestPacket(srcPath, false, nowHtmlDepth));
+                                    todoQ.add(new RequestPacket(srcPath, true, depth+1));
+                                }
+
+                                String jsCode =null;
+                                jsCode = _el.attr("onload");
+                                if(jsCode!="") {
+                                    je.addFunction(jsCode);
                                 }
                             });
                         }
