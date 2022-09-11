@@ -20,8 +20,13 @@ public class JsEngine {
     }
 
     public void addFunction(String code){
-        jsCode.append(code);
-        rhino.evaluateString(_scope, jsCode.toString(), "ScriptAPI", 1, null);
+        try {
+            jsCode.append(code);
+            rhino.evaluateString(_scope, jsCode.toString(), "ScriptAPI", 1, null);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void clearCode(String code){
@@ -32,17 +37,22 @@ public class JsEngine {
         return jsCode.toString();
     }
 
-    public void callFunction(String funcName, Object[] p)
-    {
+    public Object GetValue(String jsVarName){
+        return _scope.get(jsVarName, _scope);
+    }
+
+
+    public void callFunction(String funcName, Object[] p) {
         try {
-            Object obj = (Function) _scope.get(funcName, _scope);
+            Object obj = _scope.get(funcName, _scope);
+
             if (obj instanceof Function) {
                 Function func = (Function) obj;
                 Object jsResult = func.call(rhino, _scope, _scope, p);
                 Log.d("Tag", jsResult.toString());
             }
             else{
-                Log.d("Tag", funcName +"is not function");
+                Log.d("Tag", funcName +" is not function");
             }
         }
         catch (Exception e) {
