@@ -1,5 +1,6 @@
 package com.example.oreo2;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +14,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -60,8 +63,30 @@ public class MainActivity extends AppCompatActivity {
         Button button = findViewById(R.id.http_bttn);
         Button button2 = findViewById(R.id.http_bttn2);
 
+
+
         button2.setOnClickListener(view -> {
-            JsEngine je = new JsEngine();
+            AssetManager am = getResources().getAssets() ;
+            InputStream is = null ;
+
+            try {
+                is = am.open("env.rhino.js") ;
+
+                // TODO : use is(InputStream).
+
+            } catch (Exception e) {
+                e.printStackTrace() ;
+            }
+
+            if (is != null) {
+                try {
+                    is.close() ;
+                } catch (Exception e) {
+                    e.printStackTrace() ;
+                }
+            }
+
+            JsEngine je = new JsEngine(is.toString());
             Object p[] =  new Object[] {"p1", "p2"};
 
             String f1 = "function f1(a,b)\n" +
@@ -97,7 +122,35 @@ public class MainActivity extends AppCompatActivity {
             new Thread(new Runnable(){
                 @Override
                 public void run(){
-                    JsEngine je = new JsEngine();
+
+                    AssetManager am = getResources().getAssets() ;
+                    InputStream is = null ;
+
+                    String envJs = "" ;
+
+                    try {
+                        is = am.open("env.rhino.js") ;
+                        byte buf[] = new byte[is.available()] ;
+                        if (is.read(buf) > 0) {
+                            envJs = new String(buf) ;
+                        }
+
+                        is.close() ;
+
+                    } catch (Exception e) {
+                        e.printStackTrace() ;
+                    }
+
+//                    if (is != null) {
+//                        try {
+//                            is.close() ;
+//                        } catch (Exception e) {
+//                            e.printStackTrace() ;
+//                        }
+//                    }
+
+                    JsEngine je = new JsEngine(envJs);
+
                     int nowHtmlDepth = 0; // zero is init request
                     Queue<RequestPacket> todoQ = new LinkedList<>(); //int형 queue 선언, linkedlist 이용
                     todoQ.add(new RequestPacket(url_1, true, nowHtmlDepth));
@@ -135,6 +188,17 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         Document doc =  Jsoup.parse(resDoc.toString());
+                        String ss = doc.outerHtml();
+                        Log.d("Tag", ss);
+                        String t = doc.title();
+//doc.
+
+                        doc.location();
+//                        doc.getElementById()
+                        Elements allElements = doc.getAllElements();
+//doc.body().appendChild()
+                        //allElements.
+
                         //case 1
                         // android에서 api에서 호출 시 return되는 js 파싱을 위한
                         Elements scrLanJs = doc.select("script[language=JavaScript]");
