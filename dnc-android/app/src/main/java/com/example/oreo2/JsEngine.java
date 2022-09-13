@@ -63,8 +63,8 @@ public class JsEngine {
     public void addFunction(String code){
         try {
             //rhino.
-            jsCode.append(code);
-            rhino.evaluateString(_scope, jsCode.toString(), "ScriptAPI", 1, null);
+//            jsCode.append(code);
+            rhino.evaluateString(_scope, code, "ScriptAPI", 1, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

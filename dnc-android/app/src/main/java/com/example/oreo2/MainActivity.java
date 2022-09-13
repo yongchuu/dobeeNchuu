@@ -10,7 +10,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
+import com.gargoylesoftware.htmlunit.WebClient;
+
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -20,6 +24,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
@@ -29,6 +35,9 @@ import org.mozilla.javascript.Scriptable;
 //import javax.script.ScriptEngine;
 //import javax.script.ScriptEngineManager;
 //import javax.script.ScriptException;
+
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class MainActivity extends AppCompatActivity {
     EditText editText;
@@ -66,48 +75,82 @@ public class MainActivity extends AppCompatActivity {
 
 
         button2.setOnClickListener(view -> {
-            AssetManager am = getResources().getAssets() ;
-            InputStream is = null ;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-            try {
-                is = am.open("env.rhino.js") ;
+                    String url = "https://blog.naver.com/dobee0101/222222434066";
+//                    String url = "https://www.anycodings.com/questions/navigating-to-javascript-form-using-htmlunit";
+//                    String url = "https://www.naver.com";     // Pass
+//                    String url = "https://www.tistory.com";     // Pass
+                    WebClient webClient = new WebClient();
 
-                // TODO : use is(InputStream).
+//                  webClient.getOptions().setThrowExceptionOnScriptError(false);
+                    //webClient.getOptions().setJavaScriptEnabled(true);
 
-            } catch (Exception e) {
-                e.printStackTrace() ;
-            }
+                    webClient.setThrowExceptionOnScriptError(false);
+                    webClient.setJavaScriptEnabled(true);
 
-            if (is != null) {
-                try {
-                    is.close() ;
-                } catch (Exception e) {
-                    e.printStackTrace() ;
+                    GetTestProp().forEach((k,v)->{
+                        webClient.addRequestHeader(k,v);
+                    });
+
+                    Logger.getLogger("com.gargoylesoftware.htmlunit.javascript.host.css").setLevel(Level.SEVERE);
+                    HtmlPage htmlPage = null;
+                    try {
+                        htmlPage = webClient.getPage(url);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        printCookieln(e.toString());
+                    }
+                    String html = htmlPage.getTitleText();
+                    printCookieln(html);
                 }
-            }
-
-            JsEngine je = new JsEngine(is.toString());
-            Object p[] =  new Object[] {"p1", "p2"};
-
-            String f1 = "function f1(a,b)\n" +
-                    "{\n" +
-                    "return a+b"+
-                    "}";
-
-            String f2 = "function f2(a)\n" +
-                    "{\n" +
-                    "return a+10"+
-                    "}";
-
-            je.addFunction(f1);
-            je.addFunction(f2);
-
-            je.callFunction("f1", p);
-
-            Object p2[] = new Object[]{19};
-            je.callFunction("f2", p2);
-
+            }).start();
         });
+
+//            button2.setOnClickListener(view -> {
+//            AssetManager am = getResources().getAssets() ;
+//            InputStream is = null ;
+//
+//            try {
+//                is = am.open("env.rhino.js") ;
+//
+//                // TODO : use is(InputStream).
+//
+//            } catch (Exception e) {
+//                e.printStackTrace() ;
+//            }
+//
+//            if (is != null) {
+//                try {
+//                    is.close() ;
+//                } catch (Exception e) {
+//                    e.printStackTrace() ;
+//                }
+//            }
+//
+//            JsEngine je = new JsEngine(is.toString());
+//            Object p[] =  new Object[] {"p1", "p2"};
+//
+//            String f1 = "function f1(a,b)\n" +
+//                    "{\n" +
+//                    "return a+b"+
+//                    "}";
+//
+//            String f2 = "function f2(a)\n" +
+//                    "{\n" +
+//                    "return a+10"+
+//                    "}";
+//
+//            je.addFunction(f1);
+//            je.addFunction(f2);
+//
+//            je.callFunction("f1", p);
+//
+//            Object p2[] = new Object[]{19};
+//            je.callFunction("f2", p2);
+//        });
 
         button.setOnClickListener(view -> {
             // final String url_1 = "https://blog.naver.com/dduchelin/222042185772";
@@ -126,29 +169,7 @@ public class MainActivity extends AppCompatActivity {
                     AssetManager am = getResources().getAssets() ;
                     InputStream is = null ;
 
-                    String envJs = "" ;
-
-                    try {
-                        is = am.open("env.rhino.js") ;
-                        byte buf[] = new byte[is.available()] ;
-                        if (is.read(buf) > 0) {
-                            envJs = new String(buf) ;
-                        }
-
-                        is.close() ;
-
-                    } catch (Exception e) {
-                        e.printStackTrace() ;
-                    }
-
-//                    if (is != null) {
-//                        try {
-//                            is.close() ;
-//                        } catch (Exception e) {
-//                            e.printStackTrace() ;
-//                        }
-//                    }
-
+                    String envJs = GetJsEnvStr();
                     JsEngine je = new JsEngine(envJs);
 
                     int nowHtmlDepth = 0; // zero is init request
@@ -159,11 +180,6 @@ public class MainActivity extends AppCompatActivity {
                     {
                         RequestPacket rp = todoQ.poll();
                         String _url = rp.url;
-//                        if(nowHtmlDepth < rp.depth){
-//                            nowHtmlDepth = rp.depth;
-//                            //execute js Code and reset jsEngine
-//
-//                        }
 
                         String resDoc = null;
 
@@ -187,11 +203,40 @@ public class MainActivity extends AppCompatActivity {
                             continue;
                         }
 
-                        Document doc =  Jsoup.parse(resDoc.toString());
+                        Document doc = Jsoup.parse(resDoc.toString());
                         String ss = doc.outerHtml();
                         Log.d("Tag", ss);
                         String t = doc.title();
-//doc.
+
+                        Elements eles = doc.getAllElements();
+                        eles.forEach(element -> {
+//                            String tmp = element.toString();
+                            String _Tag = element.tag().toString();
+                            Attributes attributes = element.attributes();
+                            Map<String, String> att = new HashMap<>();
+
+                            attributes.forEach(attribute -> {
+                                att.put(attribute.getKey(), attribute.getValue());
+                            });
+
+                            //add rhino
+                            if(_Tag.equals("script")){
+                                //document.append
+                            }
+                        });
+                        String exCode = "var script = document.createElement(\"script\");" +
+                                "script.setAttribute(\"type\", \"text/javascript\");" +
+                                "script.setAttribute(\"src\", \"https://ssl.pstatic.net/t.static.blog/mylog/versioning/Frameset-347491577_https.js\");" +
+                                "script.setAttribute(\"charset\", \"UTF-8\");";
+                        je.addFunction(exCode);
+//                        doc.getElementById("script").attr("src");
+
+                        Object p[] =  new Object[] {"script"};
+                        je.callFunction("getElementsByTagName", p);
+
+
+
+
 
                         doc.location();
 //                        doc.getElementById()
@@ -310,7 +355,24 @@ public class MainActivity extends AppCompatActivity {
             }).start();
         });
     }
+    public String GetJsEnvStr(){
+        String retStr = null;
+        InputStream is;
+        AssetManager am = getResources().getAssets() ;
+        try {
+            is = am.open("env.rhino.js") ;
+            byte buf[] = new byte[is.available()] ;
+            if (is.read(buf) > 0) {
+                retStr = new String(buf) ;
+            }
 
+            is.close() ;
+
+        } catch (Exception e) {
+            e.printStackTrace() ;
+        }
+        return retStr;
+    }
 
     public Map<String, String> GetTestProp()
     {
