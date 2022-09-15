@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
 
                     String url = "https://blog.naver.com/dobee0101/222222434066";
+                    String url2 = "https://cswon.tistory.com/entry/%EC%96%91%EC%9E%AC%EC%97%AD-Wine-Bar-Rhyme";
 //                    String url = "https://www.anycodings.com/questions/navigating-to-javascript-form-using-htmlunit";
 //                    String url = "https://www.naver.com";     // Pass
 //                    String url = "https://www.tistory.com";     // Pass
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     Logger.getLogger("com.gargoylesoftware.htmlunit.javascript.host.css").setLevel(Level.SEVERE);
                     HtmlPage htmlPage = null;
                     try {
-                        htmlPage = webClient.getPage(url);
+                        htmlPage = webClient.getPage(url2);
                     } catch (IOException e) {
                         e.printStackTrace();
                         printCookieln(e.toString());

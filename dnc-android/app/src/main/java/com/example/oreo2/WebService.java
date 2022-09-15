@@ -33,7 +33,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 
 public class WebService {
-
     static final String COOKIES_HEADER = "Set-Cookie";
     static final String COOKIE = "Cookie";
     static StringBuilder output = new StringBuilder();
