@@ -19,12 +19,12 @@ public class HomeJavascriptInterface {
         if(doc.title().equals("NAVER")){ // Main 화면
             String jsCode = "javascript:document.getElementById('query').value = '허그체어 학생 메쉬';" +
                     "document.getElementsByClassName('sch_btn_search')[0].click();";
-            WebviewContext.callJs(jsCode);
+//            WebviewContext.callJs(jsCode);
         }
         else if(doc.title().endsWith(": 네이버 통합검색")){
             //String jsCode = "for(var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.parentElement.click();break;}}";
             String jsCode = "document.getElementsByClassName('m')[6].parentElement.href";
-            WebviewContext.callJs(jsCode);
+//            WebviewContext.callJs(jsCode);
         }
         else if(doc.title().endsWith("네이버쇼핑")) { // TODO: 여기서 에러 발생!
             String jsCode = "for (var value of document.getElementsByClassName('product_mall__v9966')){" +
@@ -32,6 +32,7 @@ public class HomeJavascriptInterface {
                     "        value.click();" +
                     "    }" +
                     "}";
+            WebviewContext.callJs(jsCode);
         }
         else {
             //not implements yet

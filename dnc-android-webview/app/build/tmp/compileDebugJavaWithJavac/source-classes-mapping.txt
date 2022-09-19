@@ -1,0 +1,9 @@
+com/example/oreo1/BuildConfig.java
+ com.example.oreo1.BuildConfig
+com/example/oreo1/MainActivity.java
+ com.example.oreo1.MainActivity
+ com.example.oreo1.MainActivity$1
+ com.example.oreo1.MainActivity$2
+ com.example.oreo1.MainActivity$3
+ com.example.oreo1.MainActivity$4
+ com.example.oreo1.MainActivity$MyJavascriptInterface
