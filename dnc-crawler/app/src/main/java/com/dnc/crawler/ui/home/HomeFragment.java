@@ -30,6 +30,8 @@ public class HomeFragment extends Fragment {
         Button doButton = binding.doButton;
         doButton.setOnClickListener(this::doButton);
 
+        WebView.setWebContentsDebuggingEnabled(true);
+
         WebviewContext.setWebView(binding.web);
 
         WebviewContext.getWebview().getSettings().setJavaScriptEnabled(true);
@@ -42,14 +44,14 @@ public class HomeFragment extends Fragment {
                 view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].outerHTML);");
             }
         });
-        WebviewContext.getWebview().loadUrl("https://www.naver.com");
+        //WebviewContext.getWebview().loadUrl("https://www.naver.com");
 
         return root;
     }
 
     void doButton(View v){
         WebviewContext.getWebview().loadUrl("https://www.naver.com");
-        
+
     }
 
     @Override

@@ -7,8 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/dnc-android.oreo2.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/dnc-android.oreo2.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/dnc-android.oreo2.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/dnc-android.oreo2.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/dnc-android.oreo2.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/dnc-android.oreo2.app.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oreo2.iml" filepath="$PROJECT_DIR$/.idea/modules/oreo2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/oreo2.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/oreo2.app.iml" />
     </modules>
   </component>
 </project>

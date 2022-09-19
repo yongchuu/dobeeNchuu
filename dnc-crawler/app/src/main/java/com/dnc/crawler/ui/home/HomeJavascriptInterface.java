@@ -13,19 +13,20 @@ public class HomeJavascriptInterface {
     @JavascriptInterface
     public void getHtml(String html){
         Document doc = Jsoup.parse(html);
-        Log.d("html", doc.html());
         Log.d("step2","[title]"+doc.title());
+        Log.d("html", doc.html());
 
         if(doc.title().equals("NAVER")){ // Main 화면
-            String jsCode = "document.getElementById('query').value = '허그체어 학생 메쉬';" +
+            String jsCode = "javascript:document.getElementById('query').value = '허그체어 학생 메쉬';" +
                     "document.getElementsByClassName('sch_btn_search')[0].click();";
             WebviewContext.callJs(jsCode);
         }
         else if(doc.title().endsWith(": 네이버 통합검색")){
-            String jsCode = "for (var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.click();}}";
+            //String jsCode = "for(var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.parentElement.click();break;}}";
+            String jsCode = "document.getElementsByClassName('m')[6].parentElement.href";
             WebviewContext.callJs(jsCode);
         }
-        else if(doc.title().endsWith("네이버쇼핑")) {
+        else if(doc.title().endsWith("네이버쇼핑")) { // TODO: 여기서 에러 발생!
             String jsCode = "for (var value of document.getElementsByClassName('product_mall__v9966')){" +
                     "    if(value.innerText=='허그체어'){" +
                     "        value.click();" +

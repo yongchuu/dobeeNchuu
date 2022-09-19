@@ -30,7 +30,8 @@ public class WebviewContext {
                 }catch(Exception e){
                     e.printStackTrace();
                 }
-                WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
+                //WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
+                WebviewContext.getWebview().loadUrl(jsCode);
                 try {
                     Thread.sleep((int)(Math.random()*2000)+1000);
                 }catch(Exception e){
