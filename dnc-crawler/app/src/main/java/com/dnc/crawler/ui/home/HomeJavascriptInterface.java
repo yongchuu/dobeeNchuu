@@ -22,9 +22,8 @@ public class HomeJavascriptInterface {
             WebviewContext.callJs(jsCode);
         }
         else if(doc.title().endsWith(": 네이버 통합검색")){
-//            String jsCode = "for(var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.parentElement.focus();value.click();value.parentElement.click();}}";
-            //String jsCode = "document.getElementsByClassName('m')[6].parentElement.href";
-            String jsCode = "document.getElementsByClassName('btn_tab_more _unfold')[0].click();for(var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.parentElement.click();}};";
+            //String jsCode = "for(var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.parentElement.click();break;}}";
+            String jsCode = "document.getElementsByClassName('m')[6].parentElement.href";
             WebviewContext.callJs(jsCode);
         }
         else if(doc.title().endsWith("네이버쇼핑")) {
@@ -33,6 +32,7 @@ public class HomeJavascriptInterface {
                     "        value.click();" +
                     "    }" +
                     "}";
+            WebviewContext.callJs(jsCode);
         }
         else {
             //not implements yet
