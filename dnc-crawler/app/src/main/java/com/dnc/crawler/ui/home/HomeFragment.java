@@ -32,9 +32,11 @@ public class HomeFragment extends Fragment {
 
         WebView.setWebContentsDebuggingEnabled(true);
 
+
         WebviewContext.setWebView(binding.web);
 
         WebviewContext.getWebview().getSettings().setJavaScriptEnabled(true);
+        WebviewContext.getWebview().getSettings().setDomStorageEnabled(true);
         WebviewContext.getWebview().addJavascriptInterface(new HomeJavascriptInterface(), "Android");
 
         WebviewContext.getWebview().setWebViewClient(new WebViewClient(){

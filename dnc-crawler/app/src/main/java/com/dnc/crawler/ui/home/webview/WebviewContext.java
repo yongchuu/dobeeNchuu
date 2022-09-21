@@ -26,14 +26,13 @@ public class WebviewContext {
             @Override
             public void run() {
                 try {
-                    Thread.sleep((int)(Math.random()*3000)+2000);
+                    Thread.sleep((int)(Math.random()*1000)+5000);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
-                //WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
-                WebviewContext.getWebview().loadUrl(jsCode);
+                WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
                 try {
-                    Thread.sleep((int)(Math.random()*2000)+1000);
+                    Thread.sleep((int)(Math.random()*1000)+5000);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
