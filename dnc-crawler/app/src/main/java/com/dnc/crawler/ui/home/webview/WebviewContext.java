@@ -22,17 +22,19 @@ public class WebviewContext {
     }
 
     public static void callJs(String jsCode){
+
         webView.post(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep((int)(Math.random()*1000)+5000);
+                    Thread.sleep((int)(Math.random()*1000)+1000);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+//                WebviewContext.getWebview().clearCache(true);
                 WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
                 try {
-                    Thread.sleep((int)(Math.random()*1000)+5000);
+                    Thread.sleep((int)(Math.random()*1000)+1000);
                 }catch(Exception e){
                     e.printStackTrace();
                 }

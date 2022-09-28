@@ -29,6 +29,14 @@
             android:layout_weight="1"
             android:gravity="bottom"
             android:text="Do" />
+
+        <Button
+            android:id="@+id/doButton2"
+            android:layout_width="match_parent"
+            android:layout_height="91dp"
+            android:layout_weight="19"
+            android:gravity="bottom"
+            android:text="Do2" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
