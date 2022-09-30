@@ -3,6 +3,7 @@ package com.dnc.crawler.ui.home.webview;
 import android.webkit.WebView;
 
 public class WebviewContext {
+    static final int TIME_GAP = 0;
     static WebviewContext wc = null;
     private static WebView webView;
 
@@ -25,17 +26,17 @@ public class WebviewContext {
         webView.post(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep((int)(Math.random()*1000)+5000);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep((int)(Math.random()*1000)+TIME_GAP);
+//                }catch(Exception e){
+//                    e.printStackTrace();
+//                }
                 WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
-                try {
-                    Thread.sleep((int)(Math.random()*1000)+5000);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep((int)(Math.random()*1000)+TIME_GAP);
+//                }catch(Exception e){
+//                    e.printStackTrace();
+//                }
             }
         });
     }

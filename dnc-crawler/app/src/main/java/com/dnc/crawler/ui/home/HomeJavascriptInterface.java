@@ -24,14 +24,21 @@ public class HomeJavascriptInterface {
         else if(doc.title().endsWith(": 네이버 통합검색")){
             //String jsCode = "for(var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.parentElement.click();break;}}";
             //String jsCode = "document.getElementsByClassName('m')[6].parentElement.href";
-            String jsCode = "document.getElementsByClassName('btn_tab_more _unfold')[0].click();for(var value of document.getElementsByClassName('m')){if(value.innerText=='쇼핑'){value.parentElement.click();}};";
+            String jsCode = "document.getElementsByClassName('btn_tab_more _unfold')[0].click();" +
+                    "for(var value of document.getElementsByClassName('m'))" +
+                    "{" +
+                    "if(value.innerText=='쇼핑'){" +
+                    "value.parentElement.click();" +
+                    "}" +
+                    "};";
+
             WebviewContext.callJs(jsCode);
         }
         else if(doc.title().endsWith("네이버쇼핑")) {
             String jsCode = "for (var value of document.getElementsByClassName('product_mall__v9966')){" +
-                    "    if(value.innerText=='허그체어'){" +
-                    "        value.click();" +
-                    "    }" +
+                    "if(value.innerText=='허그체어'){" +
+                    "value.parentElement.click();" +
+                    "}" +
                     "}";
             WebviewContext.callJs(jsCode);
         }
