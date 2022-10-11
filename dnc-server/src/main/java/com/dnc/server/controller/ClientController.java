@@ -3,6 +3,7 @@ package com.dnc.server.controller;
 import com.dnc.server.es.cookie.ESCookieDto;
 import com.dnc.server.es.cookie.service.ESCookieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +29,12 @@ public class ClientController {
     public void addCookie(ESCookieDto cookie){
 
         cookieService.saveCookie(cookie);
+    }
 
+    @RequestMapping(value="/getcookie.do", method = RequestMethod.POST)
+    public Page<ESCookieDto> getCookie(){
 
+        return cookieService.getCookie();
     }
 
 }
