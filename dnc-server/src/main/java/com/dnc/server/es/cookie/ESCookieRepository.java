@@ -23,8 +23,5 @@ public interface ESCookieRepository extends ElasticsearchRepository<ESCookieDto,
             "    }}")
     Page<ESCookieDto> findFirst(String version, Pageable pageable);
 
-    @Query("{\"match\": {\n" +
-            "      \"version\": \"?0\"\n" +
-            "    }}")
-    Page<ESCookieDto> deleteFirst(String version, Pageable pageable);
+    Page<ESCookieDto> deleteByUuid(String uuid, Pageable pageable);
 }

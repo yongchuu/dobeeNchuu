@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class ESCookieService {
@@ -39,6 +40,7 @@ public class ESCookieService {
             logger.debug("save cookie function called : " + cookie);
         }
         cookie.setTimestamp(new Date());
+        cookie.setUuid(UUID.randomUUID().toString());
         repo.save(cookie);
     }
 
@@ -49,18 +51,22 @@ public class ESCookieService {
 
         Page<ESCookieDto> page = repo.findFirst(version, pageable);
 
-        repo.deleteFirst(version, pageable);
 
-        MatchQueryBuilder mqb = QueryBuilders.matchQuery("version", version);
-
-        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(mqb).withPageable(pageable).build();
-
-        String query = nativeSearchQuery.getQuery().toString();
-        if(logger.isDebugEnabled()){
-            logger.debug("query :" + query);
-        }
-        Assert.notNull(oper);
-        oper.delete(nativeSearchQuery);
+        String uuid = page.getContent().get(0).getUuid();
+        repo.deleteByUuid(uuid, pageable);
+//
+//        MatchQueryBuilder mqb = QueryBuilders.matchQuery("uuid", uuid);
+//
+//
+//        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(mqb).withPageable(pageable).build();
+//
+//
+//        String query = nativeSearchQuery.getQuery().toString();
+//        if(logger.isDebugEnabled()){
+//            logger.debug("uuid: " + uuid);
+//            logger.debug("query: " + query);
+//        }
+//        oper.delete(nativeSearchQuery);
 
         return page;
     }
