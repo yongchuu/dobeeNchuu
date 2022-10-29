@@ -4,6 +4,9 @@ import com.dnc.server.es.cookie.ESCookieDto;
 import com.dnc.server.es.cookie.service.ESCookieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,9 +35,9 @@ public class ClientController {
     }
 
     @RequestMapping(value="/getcookie.do", method = RequestMethod.POST)
-    public Page<ESCookieDto> getCookie(){
+    public Page<ESCookieDto> getCookie(String version, @PageableDefault(value = 1, sort = "timestamp", direction = Sort.Direction.ASC) final Pageable pageable){
 
-        return cookieService.getCookie();
+        return cookieService.getCookie(version, pageable);
     }
 
 }

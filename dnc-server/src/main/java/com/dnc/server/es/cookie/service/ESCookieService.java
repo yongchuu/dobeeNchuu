@@ -2,14 +2,25 @@ package com.dnc.server.es.cookie.service;
 
 import com.dnc.server.es.cookie.ESCookieDto;
 import com.dnc.server.es.cookie.ESCookieRepository;
+import com.sun.istack.NotNull;
 import org.apache.log4j.Logger;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
+import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 @Service
 public class ESCookieService {
@@ -19,64 +30,38 @@ public class ESCookieService {
     @Resource
     ESCookieRepository repo;
 
+    @Resource
+    ElasticsearchOperations oper;
 
 
     public void saveCookie(ESCookieDto cookie){
         if(logger.isDebugEnabled()){
             logger.debug("save cookie function called : " + cookie);
         }
+        cookie.setTimestamp(new Date());
         repo.save(cookie);
     }
 
-    public Page<ESCookieDto> getCookie(){
+    public Page<ESCookieDto> getCookie(String version, Pageable pageable){
         if(logger.isDebugEnabled()){
             logger.debug("get cookie function called");
         }
-        return repo.findRandom(new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
 
-            @Override
-            public int getPageSize() {
-                return 1;
-            }
+        Page<ESCookieDto> page = repo.findFirst(version, pageable);
 
-            @Override
-            public long getOffset() {
-                return 0;
-            }
+        repo.deleteFirst(version, pageable);
 
-            @Override
-            public Sort getSort() {
-                return null;
-            }
+        MatchQueryBuilder mqb = QueryBuilders.matchQuery("version", version);
 
-            @Override
-            public Pageable next() {
-                return null;
-            }
+        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(mqb).withPageable(pageable).build();
 
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
+        String query = nativeSearchQuery.getQuery().toString();
+        if(logger.isDebugEnabled()){
+            logger.debug("query :" + query);
+        }
+        Assert.notNull(oper);
+        oper.delete(nativeSearchQuery);
 
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public Pageable withPage(int pageNumber) {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        });
+        return page;
     }
 }
