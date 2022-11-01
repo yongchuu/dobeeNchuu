@@ -11,10 +11,56 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_margin="10dp"
+            android:text="AbhiAndroid" />
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_margin="5dp">
+
+            <Button
+                android:id="@+id/doButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@string/s1"
+                android:layout_margin="5dp"/>
+
+            <Button
+                android:id="@+id/doButton2"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@string/s2"
+                android:layout_margin="5dp"/>
+            <Button
+                android:id="@+id/doButton3"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@string/s2"
+                android:layout_margin="5dp"/>
+            <Button
+                android:id="@+id/doButton4"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@string/s2"
+                android:layout_margin="5dp"/>
+        </LinearLayout>
+
         <WebView
             android:id="@+id/web"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
 
             app:layout_constraintBottom_toTopOf="@id/nav_view"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -22,21 +68,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_weight="19" />
 
-        <Button
-            android:id="@+id/doButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:text="Do" />
 
-        <Button
-            android:id="@+id/doButton2"
-            android:layout_width="match_parent"
-            android:layout_height="91dp"
-            android:layout_weight="19"
-            android:gravity="bottom"
-            android:text="Do2" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
