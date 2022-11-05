@@ -18,6 +18,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -51,9 +52,15 @@ public class ESCookieService {
 
         Page<ESCookieDto> page = repo.findFirst(version, pageable);
 
+        String uuid = "";
+        if(page.getContent().size()!=0)
+        {
+            uuid = page.getContent().get(0).getUuid();
+        }
 
-        String uuid = page.getContent().get(0).getUuid();
-        repo.deleteByUuid(uuid, pageable);
+        if(uuid != null && !StringUtils.isEmpty(uuid)){
+            repo.deleteByUuid(uuid, pageable);
+        }
 //
 //        MatchQueryBuilder mqb = QueryBuilders.matchQuery("uuid", uuid);
 //
