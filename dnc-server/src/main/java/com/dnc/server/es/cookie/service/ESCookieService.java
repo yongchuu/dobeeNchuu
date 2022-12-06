@@ -32,9 +32,6 @@ public class ESCookieService {
     @Resource
     ESCookieRepository repo;
 
-    @Resource
-    ElasticsearchOperations oper;
-
 
     public void saveCookie(ESCookieDto cookie){
         if(logger.isDebugEnabled()){
@@ -61,19 +58,6 @@ public class ESCookieService {
         if(uuid != null && !StringUtils.isEmpty(uuid)){
             repo.deleteByUuid(uuid, pageable);
         }
-//
-//        MatchQueryBuilder mqb = QueryBuilders.matchQuery("uuid", uuid);
-//
-//
-//        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(mqb).withPageable(pageable).build();
-//
-//
-//        String query = nativeSearchQuery.getQuery().toString();
-//        if(logger.isDebugEnabled()){
-//            logger.debug("uuid: " + uuid);
-//            logger.debug("query: " + query);
-//        }
-//        oper.delete(nativeSearchQuery);
 
         return page;
     }

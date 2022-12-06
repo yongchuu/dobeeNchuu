@@ -7,20 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/client")
+@CrossOrigin("*")
 public class ClientController {
 
     @Autowired
     ESCookieService cookieService;
+
 
     @RequestMapping(value="/heartbeat.do", method = RequestMethod.POST)
     public void heartbeat(@RequestParam String clientId){
