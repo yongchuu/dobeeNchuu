@@ -2,6 +2,9 @@ package com.dnc.crawler.ui.home;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +15,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +58,10 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     BackgroundTask task;
@@ -61,6 +69,8 @@ public class HomeFragment extends Fragment {
     int y = 0;
     View returnView;
     CookieManager cookieManager;
+    boolean goFlag = false;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -71,8 +81,6 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         returnView = inflater.inflate(R.layout.fragment_home, container, false);
-        TextView txtOne = (TextView) returnView.findViewById(R.id.textView);
-
 
         Button doButton = binding.doButton;
         Button doButton2 = binding.doButton2;
@@ -83,14 +91,18 @@ public class HomeFragment extends Fragment {
         doButton2.setOnClickListener(this::doButton2);
         doButton3.setOnClickListener(this::doButton3);
         doButton4.setOnClickListener(this::doButton4);
-
+        TextView LogTxt = binding.textView;
+        LogTxt.setText("Home page entered");
         WebView.setWebContentsDebuggingEnabled(true);
 
         WebviewContext.setWebView(binding.web);
 
         WebviewContext.getWebview().getSettings().setJavaScriptEnabled(true);
         WebviewContext.getWebview().getSettings().setDomStorageEnabled(true);
-        WebviewContext.getWebview().addJavascriptInterface(new HomeJavascriptInterface(), "Android");
+//        WebviewContext.getWebview().addJavascriptInterface(new HomeJavascriptInterface(), "Android");
+//        WebviewContext.getWebview().addJavascriptInterface(new JsInterface_naver_fullTest_v3(), "Android");
+        WebviewContext.getWebview().addJavascriptInterface(new JsInterface_kyobo_fullTest(), "Android");
+
 //        WebviewContext.getWebview().canResolveLayoutDirection();
 
         try{
@@ -101,7 +113,6 @@ public class HomeFragment extends Fragment {
                 cookieManager.setAcceptThirdPartyCookies(WebviewContext.getWebview(), true); // false 설정 시 오류 발생
             }
         }catch(Exception e){
-
         }
 
 
@@ -125,7 +136,7 @@ public class HomeFragment extends Fragment {
                 final Uri uri = request.getUrl();
                 String url = uri.toString();
                 view.loadUrl(url);
-
+//                WebviewContext.callLoadUrl(url);
                 return true;
             }
 
@@ -135,81 +146,83 @@ public class HomeFragment extends Fragment {
                 if (!redirect) {
                     loadingFinished = true;
                 }
+                Log.d("cwon", "onPageFinished");
+//                if(!goFlag)
+//                    return;
 
+                int nowCnt = WebviewContext.getCnt();
                 if (loadingFinished && !redirect) {
-                    if(WebviewContext.isSenarioOneEnded() == true){
-//                    if(WebviewContext.senarioEnded() == true &&
-//                        WebviewContext.getCnt() < repeatCnt) {
-//                        view.loadUrl("https://m.daum.net");
+//                    if(WebviewContext.isSenarioOneEnded() == true){
+                    if(nowCnt > repeatCnt){
+                        Log.d("cwon", "repeat count over!");
+                        return;
+                    }
 
-//                        view.loadUrl("https://m.naver.com");
-                        WebviewContext.setSenarioOneState(false);
+// cookie stack -----
+//                    if(WebviewContext.isSenarioOneEnded() == true ) {
+//                        WebviewContext.setSenarioOneState(false);
+// // cookie stack end -----
 
-//                        try {
-//                            changeIP();
-//                        } catch (Exception e) {
-//                            Toast.makeText(requireContext().getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-//                        }
+// full senario test -----
+                    boolean s2isEnded = WebviewContext.isSenarioTwoEnded();
+                    Log.d("cwon", "s2isEnded : " + s2isEnded);
+                    if(WebviewContext.isSenarioTwoEnded() == true ) {
+                        Log.d("cwon", "prepare next lap!");
+                        WebviewContext.setSenarioTwoEnded(false);
+// full senario end -----
+                        try {
+                            changeIP();
+                        } catch (Exception e) {
+                            Toast.makeText(requireContext().getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                        }
 
-                        txtOne.setText("repeatCnt : " + WebviewContext.getCnt());
+                        String beforeUA = view.getSettings().getUserAgentString();
+                        String nowUA = getUA();
+                        view.getSettings().setUserAgentString(nowUA);
+                        Log.d("cwon", "beforeUA : " + beforeUA);
+                        Log.d("cwon", "nowUA : " + nowUA);
 
-                        if (CookieManager.getInstance().hasCookies() == true){
+                        TextView LogTxt = binding.textView;
+                        LogTxt.setText("repeatCnt : " + WebviewContext.getCnt() +"\n" + nowUA);
+
+                        if (CookieManager.getInstance().hasCookies() == true) {
                             //- 웹뷰 로드 주소를 사용해 저장된 쿠키 목록 확인
                             String _url = view.getUrl();
                             String cookies = CookieManager.getInstance().getCookie(_url);
-                            Log.d("cookies", cookies);
+                            Log.d("cwon", nowCnt + " / " + cookies);
+//                            new Thread(() -> {
+//                                PostManager pm = new PostManager();
+//                                pm.SendCookie(cookies);
+//                            }).start();
 
-                            view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].outerHTML);");
-//                            PostManager pm = new PostManager();
-//                            pm.SendCookie(cookies);
+                            view.clearCache(true);
+                            view.clearHistory();
+                            CookieManager.getInstance().removeAllCookies(null);
+//                            CookieManager.getInstance().flush();
                         }
-                    }
-                    else{
-                        view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].outerHTML);");
-//                        view.loadUrl("javascript:window.Android.getHtml_kakao(document.getElementsByTagName('html')[0].outerHTML);");
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
 
-//                        if (CookieManager.getInstance().hasCookies() == true){
-//                            //- 웹뷰 로드 주소를 사용해 저장된 쿠키 목록 확인
-//                            String _url = view.getUrl();
-//                            String cookies = CookieManager.getInstance().getCookie(_url);
-//                            Log.d("cookies", cookies);
-//                        }
+                        boolean checkLeftCookies = CookieManager.getInstance().hasCookies();
+                        Log.d("cwon", "checkLeftCookies : " + checkLeftCookies);
+
+
+                        view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].outerHTML);");
+//                        view.loadUrl("javascript:window.Android.checkIP(document.getElementsByTagName('html')[0].outerHTML);");
+                    }
+                    else {
+                        String _url = view.getUrl();
+                        String cookies = CookieManager.getInstance().getCookie(_url);
+                        Log.d("cwon", "url : " + _url + " / " + cookies);
+                        // 순회 과정 중
+                        view.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('html')[0].outerHTML);");
+//                        view.loadUrl("javascript:window.Android.checkIP(document.getElementsByTagName('html')[0].outerHTML);");
                     }
                 }
                 else {
                     redirect = false;
                 }
-//                CookieManager.getInstance().setCookie();
                 CookieManager.getInstance().flush();
             }
-
-//            private boolean handleUri(final Uri uri) {
-//                Log.i("TAG", "Uri =" + uri);
-//                final String host = uri.getHost();
-//                final String scheme = uri.getScheme();
-//                // Based on some condition you need to determine if you are going to load the url
-//                // in your web view itself or in a browser.
-//                // You can use `host` or `scheme` or any part of the `uri` to decide.
-//                if (true) {
-//                    // Returning false means that you are going to load this url in the webView itself
-//                    return false;
-//                } else {
-//                    // Returning true means that you need to handle what to do with the url
-//                    // e.g. open web page in a Browser
-//                    final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                    startActivity(intent);
-//                    return true;
-//                }
-//            }
         });
-
-
-        //WebviewContext.getWebview().loadUrl("https://www.naver.com");
 
         return root;
     }
@@ -255,8 +268,21 @@ public class HomeFragment extends Fragment {
         return "";
     }
 
+    private String getUA()
+    {
+        List<String> uaList = Arrays.asList("Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+                "Mozilla/5.0 (Linux; Android 9.0; SAMSUNG SM-F900U Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36",
+                "Mozilla/5.0 (Linux; Android 8.0.0; SM-G955U Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36",
+                "Mozilla/5.0 (Linux; Android 10; SM-G981B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Mobile Safari/537.36",
+                "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
+        );
+        Random r = new Random();
+        return uaList.get(r.nextInt(uaList.size()));
+    }
 
     void doButton(View v){
+        TextView txtOne = (TextView) returnView.findViewById(R.id.textView);
+        txtOne.setText("loading...");
 //        new Thread(() -> {
 //            PostManager pm = new PostManager();
 //            pm.GetCookie();
@@ -267,30 +293,47 @@ public class HomeFragment extends Fragment {
 //            pm.SendCookie();
 //        }).start();
 
+        Log.d("cwon", "start button");
 //        try {
 //            changeIP();
 //        } catch (Exception e) {
 //            Toast.makeText(requireContext().getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
 //        }
-//        WebviewContext.getWebview().loadUrl("https://m.daum.net");
-        WebviewContext.getWebview().loadUrl("https://www.naver.com");
+
+        WebviewContext.getWebview().loadUrl("https://www.kyobobook.co.kr");
+//        WebviewContext.getWebview().loadUrl("https://www.daum.net");
+//        WebviewContext.getWebview().loadUrl("https://www.naver.com");
     }
 
     void doButton2(View v) {
-//        WebviewContext.getWebview().loadUrl("https://www.naver.com");
-        Random randomGenerator = new Random();
-        double upOrDown = randomGenerator.nextDouble();
-        if(upOrDown < 0.5) {
-            WebviewContext.getWebview().flingScroll(0, (int)(500 * randomGenerator.nextDouble()+1000));
-        }
-        else{
-            WebviewContext.getWebview().flingScroll(0, -(int)(200 * randomGenerator.nextDouble()+1000));
-        }
+
+        ClipboardManager clipboard = null;
+
+
+
+        WebviewContext.getWebview().loadUrl("https://www.naver.com");
+//        Random randomGenerator = new Random();
+//        double upOrDown = randomGenerator.nextDouble();
+//        if(upOrDown < 0.5) {
+//            WebviewContext.getWebview().flingScroll(0, (int)(500 * randomGenerator.nextDouble()+1000));
+//        }
+//        else{
+//            WebviewContext.getWebview().flingScroll(0, -(int)(200 * randomGenerator.nextDouble()+1000));
+//        }
     }
 
 
     void doButton3(View v) {
-        WebviewContext.getWebview().loadUrl("https://www.naver.com");
+        Instrumentation inst = new Instrumentation();
+        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_B);
+
+
+//        new Thread(() -> {
+//            PostManager pm = new PostManager();
+//            pm.SendCookie("cookies!!");
+//        }).start();
+
+//        WebviewContext.getWebview().loadUrl("https://www.naver.com");
 //        boolean wifiEnabled = getWifiStatus();
 //        toggleWifiMode(!wifiEnabled);
 //
@@ -318,10 +361,17 @@ public class HomeFragment extends Fragment {
     }
 
     void doButton4(View v) {
-        String jsCode = "document.getElementById('q').value = 'TEST'\n";
-//                    "document.getElementsByClassName('ico_ksg ico_search')[0].click()\n"+
-//                "document.getElementsByClassName('ico_ksg ico_search')[0].click()";
-        WebviewContext.callJs(jsCode);
+
+        WebviewContext.getWebview().loadUrl("https://www.naver.com");
+//        goFlag = !goFlag;
+//        Log.d("debug", "goFlag : " + goFlag);
+
+//        LogTxt.setText("Start!!!");
+//        txtOne.setText("button4 clicked");
+//        String jsCode = "document.getElementById('q').value = 'TEST'\n";
+////                    "document.getElementsByClassName('ico_ksg ico_search')[0].click()\n"+
+////                "document.getElementsByClassName('ico_ksg ico_search')[0].click()";
+//        WebviewContext.callJs(jsCode);
     }
 
     private void changeIP()
@@ -361,15 +411,15 @@ public class HomeFragment extends Fragment {
 //        boolean isConnected = activeNetwork != null &&
 //                activeNetwork.isConnectedOrConnecting();
         NetworkInfo netinfo = cm.getActiveNetworkInfo();
-        if(netinfo!=null){
-            if(netinfo.getType() == ConnectivityManager.TYPE_WIFI) {
+        if (netinfo != null) {
+            if (netinfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 return true;
             }
-            else{
+            else {
                 return false;
             }
         }
-        else{
+        else {
             return false;
         }
     }
@@ -379,7 +429,7 @@ public class HomeFragment extends Fragment {
                 (ConnectivityManager)requireContext().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo netinfo = cm.getActiveNetworkInfo();
-        if(netinfo!=null){
+        if (netinfo!=null) {
             if(netinfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 return true;
             }
@@ -410,6 +460,7 @@ public class HomeFragment extends Fragment {
         boolean wifiEnabled = wifiManager.isWifiEnabled();
         return wifiEnabled;
     }
+
     private String getSearchKeyword()
     {
         List<String> locations = Arrays.asList("강남", "양재", "이태원", "잠실", "마포");
@@ -425,5 +476,18 @@ public class HomeFragment extends Fragment {
         String tmp = loc + " " + food + " " + endword;
 
         return tmp;
+    }
+
+    public static String[] shuffle(String[] arr){
+        for(int x=0;x<arr.length;x++){
+            int i = (int)(Math.random()*arr.length);
+            int j = (int)(Math.random()*arr.length);
+
+            String tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+        }
+
+        return arr;
     }
 }

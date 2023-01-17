@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
 MERGED from [com.google.android.material:material:1.4.0] /Users/csWon/.gradle/caches/transforms-3/1508bc0f4d67cb1fb46dec23183d0585/transformed/material-1.4.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.2] /Users/csWon/.gradle/caches/transforms-3/66bbb9fe8c9e1863a78a4ee4625746ef/transformed/constraintlayout-2.1.2/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat:1.4.0] /Users/csWon/.gradle/caches/transforms-3/46d15f5c58a469270eeba15db4463d05/transformed/appcompat-1.4.0/AndroidManifest.xml:17:1-24:12
@@ -43,43 +43,63 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/csWon/.gradle/cach
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/csWon/.gradle/caches/transforms-3/30559646bdc9f3290097ba378eb99203/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] /Users/csWon/.gradle/caches/transforms-3/b618f929228947d1fd03b4a852d85b00/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/csWon/.gradle/caches/transforms-3/b521f32a8ca2115704fce9eaa65230c1/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:17:1-24:12
-INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
+INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
+INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
 	package
 		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:4:5-32
 		INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
 		INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml
 	xmlns:tools
 		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-30:12
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:1-46:12
 		INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:2:11-69
-uses-permission#android.permission.WRITE_SETTINGS
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:5:5-6:47
-	tools:ignore
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:6:9-44
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:5:5-92
 	android:name
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:5:22-70
-uses-permission#android.permission.WRITE_SECURE_SETTINGS
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:7:5-8:47
-	tools:ignore
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:8:9-44
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:5:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:6:5-92
 	android:name
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:7:22-77
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:6:22-73
 uses-permission#android.permission.INTERNET
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:9:5-66
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:8:5-66
 	android:name
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:9:22-64
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:8:22-64
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:10:5-72
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:10:22-70
+uses-permission#android.permission.WRITE_SECURE_SETTINGS
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:11:22-77
+uses-permission#android.permission.AIRPLANE_MODE
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:14:5-71
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:14:22-69
+uses-permission#android.permission.ACTION_AIRPLANE_MODE_CHANGED
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:15:5-86
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:15:22-84
+uses-permission#android.intent.action.AIRPLANE_MODE
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:17:5-75
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:17:22-72
+uses-permission#android.intent.action.ACTION_AIRPLANE_MODE_CHANGED
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:18:5-89
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:18:22-87
 application
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:11:5-28:19
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:24:5-44:19
 MERGED from [com.google.android.material:material:1.4.0] /Users/csWon/.gradle/caches/transforms-3/1508bc0f4d67cb1fb46dec23183d0585/transformed/material-1.4.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.4.0] /Users/csWon/.gradle/caches/transforms-3/1508bc0f4d67cb1fb46dec23183d0585/transformed/material-1.4.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.2] /Users/csWon/.gradle/caches/transforms-3/66bbb9fe8c9e1863a78a4ee4625746ef/transformed/constraintlayout-2.1.2/AndroidManifest.xml:9:5-20
@@ -94,38 +114,48 @@ MERGED from [androidx.lifecycle:lifecycle-process:2.4.0] /Users/csWon/.gradle/ca
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.0] /Users/csWon/.gradle/caches/transforms-3/0e4a425e61d135d109d64d5f17d999df/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:25:5-35:19
 MERGED from [androidx.startup:startup-runtime:1.0.0] /Users/csWon/.gradle/caches/transforms-3/46500c3b5c1ccf84767a89139e7d74da/transformed/jetified-startup-runtime-1.0.0/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.0.0] /Users/csWon/.gradle/caches/transforms-3/46500c3b5c1ccf84767a89139e7d74da/transformed/jetified-startup-runtime-1.0.0/AndroidManifest.xml:25:5-31:19
+	android:sharedUserId
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:25:9-50
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.7.0] /Users/csWon/.gradle/caches/transforms-3/9339927e08badd09bc5459e4ba900d5f/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:17:9-35
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:31:9-35
 	android:label
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:15:9-41
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:29:9-41
 	android:roundIcon
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:16:9-54
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:30:9-54
 	android:icon
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:14:9-43
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:28:9-43
 	android:allowBackup
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:13:9-35
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:27:9-35
 	android:theme
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:18:9-43
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:32:9-43
 	android:usesCleartextTraffic
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:12:9-44
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:26:9-44
 activity#com.example.oreo1.MainActivity
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:19:9-27:20
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:33:9-43:20
 	android:exported
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:21:13-36
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:35:13-36
 	android:name
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:20:13-41
-intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:22:13-26:29
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:34:13-41
+intent-filter#action:name:android.intent.action.ACTION_AIRPLANE_MODE_CHANGED+action:name:android.intent.action.AIRPLANE_MODE+action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:36:13-42:29
 action#android.intent.action.MAIN
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:23:17-69
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:37:17-69
 	android:name
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:23:25-66
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:37:25-66
+action#android.intent.action.AIRPLANE_MODE
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:38:17-77
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:38:25-75
+action#android.intent.action.ACTION_AIRPLANE_MODE_CHANGED
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:39:17-92
+	android:name
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:39:25-90
 category#android.intent.category.LAUNCHER
-ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:25:17-77
+ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:41:17-77
 	android:name
-		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:25:27-74
+		ADDED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml:41:27-74
 uses-sdk
 INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/csWon/Documents/GitHub/dobeeNchuu/dnc-android-webview/app/src/main/AndroidManifest.xml

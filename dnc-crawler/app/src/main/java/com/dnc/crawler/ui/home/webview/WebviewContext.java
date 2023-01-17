@@ -34,7 +34,7 @@ public class WebviewContext {
     public static void setSenarioOneState(boolean isEnded) {
         senarioOneEnded = isEnded;
     }
-    public static void setSenarioTwoState(boolean isEnded) {
+    public static void setSenarioTwoEnded(boolean isEnded) {
         senarioTwoEnded = isEnded;
     }
     public static boolean isSenarioOneEnded() {
@@ -49,28 +49,38 @@ public class WebviewContext {
     }
 
     public static void cntUp(){
-        cnt++;
+        cnt = cnt+1;
     }
 
 
 
-    public static void goHome(int delay_sec){
-        for(int i=0; i<delay_sec/2; i++){
-            scrollMove();
-            try {
-                Thread.sleep((int)(Math.random()*2000) + 1000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-                WebviewContext.getWebview().loadUrl("https://www.naver.com");
-            }
-        });
+    public static void goHome(){
+        new Thread(() -> {
+            webView.post(new Runnable() {
+                @Override
+                public void run() {
+                    WebviewContext.getWebview().loadUrl("https://m.naver.com");
+                }
+            });
+        }).start();
     }
 
+    public static void callLoadUrl(String url){
+        new Thread(() -> {
+            webView.post(new Runnable() {
+                @Override
+                public void run() {
+                    WebviewContext.getWebview().loadUrl(url);
+                }
+            });
+        }).start();
+    }
+
+
+    public static String getUrl(String url){
+//      WebviewContext.getWebview().loadUrl(url);
+        return WebviewContext.getWebview().getUrl();
+    }
 
     public static void callJs(String jsCode){
         new Thread(() -> {
@@ -82,56 +92,67 @@ public class WebviewContext {
             });
         }).start();
     }
-//    public static void callJs(String jsCode, int time_s){
-//        webView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
-//            }
-//        });
-//
-////        int delay_time = (int) (Math.random() * 10 * 1000) + 1000;
-////        for(int i=0; i<time_s/2; i++){
-////            scrollMove();
-////            try {
-////                Thread.sleep((int)(Math.random()*2000) + 1000);
-////            } catch (Exception e) {
-////                e.printStackTrace();
-////            }
-////        }
-//
-//    }
-    public static synchronized void moveNdelay(int time_s) {
-        for(int i=0; i<time_s/2; i++){
 
-            new Thread(() -> {
-                try {
-                    Thread.sleep((int)(Math.random()*2000) + 1000);
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+    public static void callJs(String jsCode, int delayTime_s){
+        new Thread(() -> {
+            webView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
                 }
-            }).start();
+            }, delayTime_s*1000);
+        }).start();
 
-        }
-    }
+//        scrollMove();
 
-    public static synchronized void delay(int time_s) {
-//        for(int i=0; i<time_s/2; i++){
+//        int times = delayTime_s/10;
+//        times++;
+//        for(int i = 0; i<times; i++) {
 //            new Thread(() -> {
-//                try {
-//                    Thread.sleep((int)(Math.random()*2000) + 1000);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+//                webView.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Random randomGenerator = new Random();
+//                        double upOrDown = randomGenerator.nextDouble();
+//                        if (upOrDown < 0.5) {
+//                            WebviewContext.getWebview().flingScroll(0, (int) (500 * randomGenerator.nextDouble() + 3000));
+//                        } else {
+//                            WebviewContext.getWebview().flingScroll(0, (int) (200 * randomGenerator.nextDouble() + 3000));
+//                        }
+//                    }
+//                }, 3000);
 //            }).start();
 //        }
+    }
+
+
+    public static void delay_(int time_s) {
+        int oneSec = 1000;
+
         try {
-//            Thread.sleep((int)(Math.random()*2000) + 1000);
-            Thread.sleep((int)(time_s*1000));
+            Thread.sleep((int)(10 * oneSec));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public static void delay(int time_s) {
+        int oneSec = 1000;
+        Random r = new Random();
+//        int add_sec = r.nextInt(30);
+        int add_sec = 0;
+        int moveScale = (time_s + add_sec) / 10;//10초에 한번 씩 움직이기
+
+        for(int i=0; i<moveScale; i++)
+        {
+//            scrollMove();
+            try {
+                Thread.sleep((int)(10 * oneSec));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void scrollMove(){
@@ -141,39 +162,13 @@ public class WebviewContext {
                 Random randomGenerator = new Random();
                 double upOrDown = randomGenerator.nextDouble();
                 if(upOrDown < 0.5) {
-                    WebviewContext.getWebview().flingScroll(0, (int)(500 * randomGenerator.nextDouble()+1000));
+                    WebviewContext.getWebview().flingScroll(0, (int)(500 * randomGenerator.nextDouble()+3000));
                 }
                 else{
-                    WebviewContext.getWebview().flingScroll(0, (int)(200 * randomGenerator.nextDouble()+1000));
+                    WebviewContext.getWebview().flingScroll(0, (int)(200 * randomGenerator.nextDouble()+3000));
                 }
             }
         });
     }
 
-    public static void callJs(String jsCode, int time_s, int touchdown){
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-                int y=0;
-
-                for(int i=0; i<touchdown; i++) {
-                    WebviewContext.getWebview().loadUrl("javascript:" + jsCode);
-                    try {
-                        Thread.sleep((int) (Math.random() * 10 * 1000) + 1000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    double upOrDown = Math.random();
-
-                    if(upOrDown >0.8) {
-                        y = y + (int)(500 * Math.random());
-                    }
-                    else{
-                        y = y + (int)(200 * Math.random());
-                    }
-                    WebviewContext.getWebview().flingScroll(0,y);
-                }
-            }
-        });
-    }
 }

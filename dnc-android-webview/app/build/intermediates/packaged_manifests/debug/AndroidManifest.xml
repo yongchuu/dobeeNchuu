@@ -8,10 +8,18 @@
         android:minSdkVersion="26"
         android:targetSdkVersion="32" />
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.AIRPLANE_MODE" />
+    <uses-permission android:name="android.permission.ACTION_AIRPLANE_MODE_CHANGED" />
+    <uses-permission android:name="android.intent.action.AIRPLANE_MODE" />
+    <uses-permission android:name="android.intent.action.ACTION_AIRPLANE_MODE_CHANGED" />
 
+    <!-- <protected-broadcast android:name="android.intent.action.AIRPLANE_MODE" /> -->
+    <!-- <protected-broadcast android:name="android.intent.action.ACTION_AIRPLANE_MODE_CHANGED" /> -->
     <application
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -20,6 +28,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:sharedUserId="android.uid.system"
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.Oreo1"
@@ -29,6 +38,8 @@
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
+                <action android:name="android.intent.action.ACTION_AIRPLANE_MODE_CHANGED" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
